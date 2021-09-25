@@ -5,8 +5,13 @@ tinymce.init({
     // remove_script_host : false,
     // document_base_url : "http://localhost:3000/",
     convert_urls: false,
+    toolbar: 'tiny_mce_wiris_formulaEditor',
     plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-    toolbar_mode: 'floating',
+    external_plugins: {
+        'tiny_mce_wiris' : 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js'
+    },
+    
+    // toolbar_mode: 'floating',
     images_upload_url: '/image-upload',
 
 /* we override default upload handler to simulate successful upload*/
