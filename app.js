@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const {Post} = require('./models/index');
 const fs = require('fs');
 const fileUpload =  require('express-fileupload');
 const app = express();
@@ -13,22 +14,40 @@ app.use(express.static('public'));
 app.use(express.urlencoded());
 app.use(express.json());
 
-app.get('/',(req,res)=>{
-    // console.log(__dirname);
-    res.render('main');
+app.get('/post/:id',async (req,res)=>{
+    const id = req.params.id;
+    try{
+        const post = await Post.findByPk(id);
+    // res.json(post)
+    res.render('show_post',{post});
+    }catch(err){
+        console.log(err);
+    }
+    
 });
 
-app.post('/insert-post', (req,res)=>{
+app.get('/',(req,res)=>{
+    res.render('main');
+})
+
+app.post('/insert-post', async (req,res)=>{
     const request = req.body;
-    console.log(request);
-    res.json(request);
+    // console.log(request);
+    try{
+        const data = await Post.create({
+            title:request.title,
+            body:request.body,
+        });
+        res.redirect('/');
+    }catch(err){
+        console.log(err);
+    }
+    
 });
 
 app.post('/image-upload',(req,res)=>{
     const image = req.files.image;
-    console.log(image);
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    // sampleFile = req.files.sampleFile;
+    // console.log(image);
     let imageName = image.name.replace(/ /g,""); //delete or spacce in image name
     uploadPathServer = __dirname + '/public/img/'+imageName;
     uploadPathUser = '/img/' + imageName;

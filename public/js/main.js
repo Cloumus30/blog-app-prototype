@@ -1,6 +1,10 @@
-
+// Setutp tinymce wysiswyg editor
 tinymce.init({
     selector: 'textarea',
+    // relative_urls : false,
+    // remove_script_host : false,
+    // document_base_url : "http://localhost:3000/",
+    convert_urls: false,
     plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
     toolbar_mode: 'floating',
     images_upload_url: '/image-upload',
@@ -26,7 +30,7 @@ function uploadImage(blobInfo, success, failure, progress){
     })
     .then(response => response.json())
     .then(result => {
-    console.log('Success:', result);
+    // console.log('Success:', result);
     success(result.location);
     })
     .catch(error => {
@@ -35,7 +39,7 @@ function uploadImage(blobInfo, success, failure, progress){
     });
 }
 
-
+// Image Delete from editor and server
 function deleteImage (e){
     const formData = new FormData();
     if ((e.keyCode == 8 || e.keyCode == 46) && tinymce.activeEditor.selection) { // delete & backspace keys
@@ -54,7 +58,7 @@ function deleteImage (e){
                 body:JSON.stringify(data)
             }).then(response=>response.json())
             .then(result=>{
-                console.log('success delete',result);
+                // console.log('success delete',result);
             })
             .catch(error=>{
                 console.error('Error: ',error);
@@ -62,6 +66,8 @@ function deleteImage (e){
         }
     }
 }
+
+
 
 
 
