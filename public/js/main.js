@@ -1,3 +1,6 @@
+//Global variable
+let imageUploadList = [];
+
 // Setutp tinymce wysiswyg editor
 tinymce.init({
     selector: 'textarea',
@@ -19,6 +22,7 @@ tinymce.init({
 
     setup: (ed)=>{
         ed.on('keyDown',deleteImage);
+        ed.on('NodeChange',cancelInputImage);
     }
     
 });
@@ -36,12 +40,19 @@ function uploadImage(blobInfo, success, failure, progress){
     .then(response => response.json())
     .then(result => {
     // console.log('Success:', result);
+    imageUploadList.push(result.location);
     success(result.location);
+    console.log(imageUploadList);
     })
     .catch(error => {
     console.error('Error:', error);
     failure('cannot upload');
     });
+}
+
+function cancelInputImage(e){
+    // console.log(e.element)
+    // console.info(e);
 }
 
 // Image Delete from editor and server
@@ -71,6 +82,25 @@ function deleteImage (e){
         }
     }
 }
+
+const form = document.querySelector("form");
+
+form.onsubmit=(e)=>{
+    e.preventDefault()
+    let imgActiveList = [];
+    let editorBody = document.getElementById("mce_0_ifr").contentWindow.document.body;
+    if(editorBody.querySelector('img')){
+        const images = editorBody.querySelectorAll('img');
+        images.forEach(el => {
+            imgActiveList.push(el.getAttribute('src'));
+
+        });
+    }
+    console.log(imgActiveList);
+}
+
+
+
 
 
 
