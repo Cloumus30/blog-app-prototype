@@ -3,6 +3,8 @@ const express = require("express");
 const {Post} = require('./models/index');
 const fs = require('fs');
 const fileUpload =  require('express-fileupload');
+const moment = require('moment');
+const { customAlphabet}  = require("nanoid");
 const app = express();
 const port = process.env.PORT||3000;
 
@@ -45,24 +47,43 @@ app.post('/insert-post', async (req,res)=>{
     
 });
 
+
 app.post('/image-upload',(req,res)=>{
     const image = req.files.image;
-    // console.log(image);
+    // console.info(image);
     let imageName = image.name.replace(/ /g,""); //delete or spacce in image name
+    let arrImage = imageName.split('.');
+    console.log(arrImage);
+    imageName = mergeImageName(arrImage);
+    let formatImage = arrImage[arrImage.length-1];
+    imageName += '-'+moment().format('DD-MM-YYYY')+'.'+formatImage;
     uploadPathServer = __dirname + '/public/img/'+imageName;
-    uploadPathUser = '/img/' + imageName;
-
+    console.info(imageName);
   // Use the mv() method to place the file somewhere on your server
     image.mv(uploadPathServer, function(err) {
         if (err){
             return res.status(500).send(err);
         }
-            res.json({
+            uploadPathUser = '/img/' + imageName;
+            console.log(uploadPathUser);
+            return res.json({
                 "location":uploadPathUser
             });
-    });
-    
+    });    
 })
+
+// Merge array of image Name and add id for uniq name
+function mergeImageName(arr=[]){
+    let id = customAlphabet('1234567890abcdefg', 6);
+    let res='';
+    let i=0;
+    while(i<arr.length-1){
+        res+=arr[i]
+        i+=1;
+    }
+    res+='-'+id();
+    return res;
+}
 
 app.delete('/image-delete',(req,res)=>{
     const pathFile = req.body.pathFile;

@@ -1,5 +1,6 @@
 Image handling:
-1. Ketika Gambar diupload maka akan dibuat list atau array tentang gambar yang telah dimasukkan.
-2. Ketika post akan disubmit, maka dilakukan pengecekan pada konten editor aktif semua list dari gambar yang ada
-3. Jika ada gambar yang tidak ada pada post dan ada pada list, maka gambar yang tidak ada tersebut akan dihapus dari server
-4. Jika gambar ada maka gambar tersebut akan dibiarkan tetap berada diserver
+1. Image autoupload false
+2. tinymce.activeEditor.uploadImages() => command for upload image. place it to onsubmit method of the form 
+    to upload the images first then save post to database. it is done for saving image tag in the post not in base64 format
+3. receive with server and save it.
+4. end
