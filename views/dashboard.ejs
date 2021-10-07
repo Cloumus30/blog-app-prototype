@@ -5,8 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <style>
+        th,td{
+            padding: 5px 10px 5px 10px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Go to Post Insert: <a href="/">main page</a></h2>
+    <h2>Go to Post Insert: <a href="/insert">Here</a></h2>
+    <table border="1px solid black">
+        <tr>
+            <th>No. </th>
+            <th>Judul</th>
+            <th>Link</th>
+        </tr>
+        <% let i=1; posts.forEach(post => { %>
+            <tr>
+                <td><%= i %> </td>
+                <td><%= post.title %> </td>
+                <td><a href="/post/<%=post.id%>">Post ke <%= post.id %> </a></td>
+            </tr>
+        <% i+=1; }) %>
+        
+        
+    </table>
+    
 </body>
 </html>

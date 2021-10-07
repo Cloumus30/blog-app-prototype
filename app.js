@@ -5,6 +5,8 @@ const fs = require('fs');
 const fileUpload =  require('express-fileupload');
 const moment = require('moment');
 const { customAlphabet}  = require("nanoid");
+const cloudinary = require("cloudinary").v2;
+const { stringify } = require("querystring");
 const app = express();
 const port = process.env.PORT||3000;
 
@@ -28,13 +30,23 @@ app.get('/post/:id',async (req,res)=>{
     
 });
 
-app.get('/',(req,res)=>{
+app.get('/',async (req,res)=>{
+    // console.log(cloudinary.config());
+    const posts = await Post.findAll();
+
+    res.render('dashboard',{posts});
+});
+
+app.get('/insert',async (req,res)=>{
     res.render('main');
 })
 
 app.post('/insert-post', async (req,res)=>{
     const request = req.body;
     // console.log(request);
+    if(request.title==''){
+        request.title="Judul post Default ";
+    }
     try{
         const data = await Post.create({
             title:request.title,
@@ -47,6 +59,19 @@ app.post('/insert-post', async (req,res)=>{
     
 });
 
+function deleteImage(path=""){
+    fs.unlink(path,(err)=>{
+        if(err){
+            console.log(err);
+            // res.json(err);
+            return false;
+        }
+        // res.json(pathFile);
+        // console.log('image dihapus lagi')
+        return true;
+    })
+}
+
 
 app.post('/image-upload',(req,res)=>{
     const image = req.files.image;
@@ -55,21 +80,30 @@ app.post('/image-upload',(req,res)=>{
     let arrImage = imageName.split('.');
     console.log(arrImage);
     imageName = mergeImageName(arrImage);
-    let formatImage = arrImage[arrImage.length-1];
+    let formatImage = arrImage[arrImage.length-1]; //get format image
+    let cloudName = imageName + '-'+moment().format('DD-MM-YYYY'); //cloudinary image public id (name)
     imageName += '-'+moment().format('DD-MM-YYYY')+'.'+formatImage;
     uploadPathServer = __dirname + '/public/img/'+imageName;
-    console.info(imageName);
-  // Use the mv() method to place the file somewhere on your server
-    image.mv(uploadPathServer, function(err) {
+//   Use the mv() method to place the file somewhere on your server
+    image.mv(uploadPathServer,async function(err) {
         if (err){
             return res.status(500).send(err);
         }
             uploadPathUser = '/img/' + imageName;
-            console.log(uploadPathUser);
-            return res.json({
-                "location":uploadPathUser
-            });
+            uploadPathServer = __dirname + '/public/img/'+imageName; //update uploadPathServer for upload to cloud
+            let lokasi='';
+            
+            try {
+                const result = await cloudinary.uploader.upload(uploadPathServer,{public_id:cloudName});
+                // console.log(result);
+                uploadPathServer = __dirname + '/public/img/'+imageName; //update uploadPathServer for delete in local server
+                deleteImage(uploadPathServer)
+                return res.json({"location":result.url})
+            } catch (error) {
+                
+            }
     });    
+    
 })
 
 // Merge array of image Name and add id for uniq name
@@ -92,13 +126,19 @@ app.delete('/image-delete',(req,res)=>{
     const pathLen = pathArr.length;
     const path = '/public/'+pathArr[pathLen-2]+'/'+pathArr[pathLen-1];
 
-    fs.unlink(__dirname+path,(err)=>{
-        if(err){
-            console.log(err);
-            res.json(err);
-        }
+    // fs.unlink(__dirname+path,(err)=>{
+    //     if(err){
+    //         console.log(err);
+    //         res.json(err);
+    //     }
+    //     res.json(pathFile);
+    // });
+    const deleted = deleteImage(__dirname+path);
+    if(deleted){
         res.json(pathFile);
-    })
+    }else{
+        res.json("error");
+    }
 
     
 })
