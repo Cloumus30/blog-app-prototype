@@ -84,9 +84,11 @@ app.post('/image-upload',(req,res)=>{
     let cloudName = imageName + '-'+moment().format('DD-MM-YYYY'); //cloudinary image public id (name)
     imageName += '-'+moment().format('DD-MM-YYYY')+'.'+formatImage;
     uploadPathServer = __dirname + '/public/img/'+imageName;
+    console.log(uploadPathServer);
 //   Use the mv() method to place the file somewhere on your server
     image.mv(uploadPathServer,async function(err) {
         if (err){
+            console.log(err);
             return res.status(500).send(err);
         }
             uploadPathUser = '/img/' + imageName;
