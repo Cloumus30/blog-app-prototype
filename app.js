@@ -83,7 +83,7 @@ app.post('/image-upload',(req,res)=>{
     let formatImage = arrImage[arrImage.length-1]; //get format image
     let cloudName = imageName + '-'+moment().format('DD-MM-YYYY'); //cloudinary image public id (name)
     imageName += '-'+moment().format('DD-MM-YYYY')+'.'+formatImage;
-    uploadPathServer = __dirname + '/public/img/'+imageName;
+    uploadPathServer = __dirname +imageName;
     console.log(uploadPathServer);
 //   Use the mv() method to place the file somewhere on your server
     image.mv(uploadPathServer,async function(err) {
@@ -92,13 +92,13 @@ app.post('/image-upload',(req,res)=>{
             return res.status(500).send(err);
         }
             uploadPathUser = '/img/' + imageName;
-            uploadPathServer = __dirname + '/public/img/'+imageName; //update uploadPathServer for upload to cloud
+            uploadPathServer = __dirname +imageName; //update uploadPathServer for upload to cloud
             let lokasi='';
             
             try {
                 const result = await cloudinary.uploader.upload(uploadPathServer,{public_id:cloudName});
                 // console.log(result);
-                uploadPathServer = __dirname + '/public/img/'+imageName; //update uploadPathServer for delete in local server
+                uploadPathServer = __dirname +imageName; //update uploadPathServer for delete in local server
                 deleteImage(uploadPathServer)
                 return res.json({"location":result.url})
             } catch (error) {
