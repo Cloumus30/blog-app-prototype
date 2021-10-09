@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML"></script>
     <title>POSTS</title>
+    <style>
+        iframe{
+            width: 100%;
+            height: 700px;
+        }
+        @media only screen and (max-width: 768px) {
+            img{
+                width: 100%;
+                height: auto;
+            }
+            iframe{
+                width: 100%;
+                height: 400px;
+            }    
+        }
+    </style>
 </head>
 <body>
     <h2><a href="/">Home</a></h2>
@@ -14,5 +30,6 @@
     <div>
         <%- post.body %> 
     </div>
+    <iframe src="<%=post.geogebra%>" frameborder="0"></iframe>
 </body>
 </html>

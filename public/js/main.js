@@ -10,7 +10,7 @@ tinymce.init({
     // document_base_url : "http://localhost:3000/",
     convert_urls: false,
     toolbar: 'tiny_mce_wiris_formulaEditor',
-    plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak autosave paste',
+    plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak autosave',
     autosave_interval:'4s',
     paste_data_images: true,
     height:500,
@@ -20,6 +20,9 @@ tinymce.init({
     },
     
     // toolbar_mode: 'floating',
+    image_class_list: [
+        {title:'responsive', value:'img-responsive'}
+    ],
     images_upload_url: '/image-upload',
 
     images_upload_handler: uploadImage,

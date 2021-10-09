@@ -15,12 +15,14 @@ module.exports = {
       {
       title: 'Post 1',
       body:'<p> Cloudias Hello World </p>',
+      geogebra:'https://www.geogebra.org/m/vkutuwmw',
       createdAt:new Date(),
       updatedAt:new Date()
     },
     {
       title: 'Post 2',
       body:'<h1> imani Hello World </h1>',
+      geogebra:"https://www.geogebra.org/m/vkutuwmw",
       createdAt:new Date(),
       updatedAt:new Date()
     }

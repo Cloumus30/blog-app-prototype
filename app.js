@@ -51,6 +51,7 @@ app.post('/insert-post', async (req,res)=>{
         const data = await Post.create({
             title:request.title,
             body:request.body,
+            geogebra:request.geogebra
         });
         res.redirect('/');
     }catch(err){

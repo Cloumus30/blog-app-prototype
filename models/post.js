@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   Post.init({
     title: DataTypes.STRING,
-    body: DataTypes.TEXT
+    body: DataTypes.TEXT,
+    geogebra:DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Post',
