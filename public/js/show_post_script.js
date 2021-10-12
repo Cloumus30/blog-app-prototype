@@ -26,11 +26,7 @@ function deleteImage(){
         })
             .then(response => response.json())
             .then(result => {
-            // console.log('Success:', result);
-            imageUploadList.push(result.location);
-            // success(result.location);
-            // console.log('images')
-            // console.log(imageUploadList);
+                
         })
             .catch(error => {
             console.error('Error:', error);
@@ -38,23 +34,27 @@ function deleteImage(){
         });
 }
 
+// Delete Images and Post
 const deleteBtn = document.getElementById('btn-delete');
 deleteBtn.addEventListener('click',(e)=>{
     if(confirm('yakin ingin menghapus post?')){
+        // Delete Images
         deleteImage();
+        // Delete Post
         const postId =  document.getElementById('id-post').value.trim();
-        const formData = new FormData();
-        formData.append('id',postId);
-        fetch(`/post-delete/${postId}`,{
-            method:'DELETE',
-            body:formData
-        })
-        .then(response=>{response.json()})
-        .then(result=>{
-            alert(`post berhasil dihapus`);
-            
-            window.location.href='/';
-        })
-        .catch(err=>{console.log(err)});
+                const formData = new FormData();
+                formData.append('id',postId);
+                fetch(`/post-delete/${postId}`,{
+                    method:'DELETE',
+                    body:formData
+                })
+                .then(response=>{response.json()})
+                .then(result=>{
+                    alert(`post berhasil dihapus`);
+                    
+                    window.location.href='/';
+                })
+                .catch(err=>{console.log(err)});
     }
-})
+});
+

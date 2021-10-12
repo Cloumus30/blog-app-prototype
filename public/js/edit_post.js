@@ -24,7 +24,7 @@ tinymce.init({
     images_upload_handler: uploadImage,
 
     setup: (ed)=>{
-        // ed.on('keyDown',deleteImage);
+        ed.on('keyDown',deleteImage);
         // ed.on('NodeChange',cancelInputImage);
     }
     
@@ -44,7 +44,6 @@ function uploadImage(blobInfo, success, failure, progress){
     .then(result => {
     
         success(result.location);
-    
     })
     .catch(error => {
         console.error('Error:', error);
@@ -52,7 +51,7 @@ function uploadImage(blobInfo, success, failure, progress){
     });
 }
 
-
+// Upload Images first then Submit the Form
 const form = document.querySelector("form");
 form.onsubmit=(e)=>{
     tinymce.activeEditor.uploadImages((success)=>{
@@ -67,11 +66,33 @@ form.onsubmit=(e)=>{
     return false;
     
 }
+//public Id is term for name in cloudinary
 
 
-
-
-
-
-
-
+// Image Delete from editor and server
+function deleteImage (e){
+    const formData = new FormData();
+    if ((e.keyCode == 8 || e.keyCode == 46) && tinymce.activeEditor.selection) { // delete & backspace keys
+        
+        var selectedNode = tinymce.activeEditor.selection.getNode(); // get the selected node (element) in the editor
+        if (selectedNode && selectedNode.nodeName == 'IMG') {
+            // console.log(selectedNode.src); // A callback that will let me invoke the deletion of the image on the server if appropriate for the image source.
+            const data = {"pathFile":selectedNode.src};
+            fetch('/image-delete',{
+                method:'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body:JSON.stringify(data)
+            }).then(response=>response.json())
+            .then(result=>{
+                // console.log('success delete',result);
+            })
+            .catch(error=>{
+                console.error('Error: ',error);
+            });
+        }
+        
+    }
+}
