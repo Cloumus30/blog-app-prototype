@@ -26,10 +26,17 @@
 <body>
     <h2><a href="/">Home</a></h2>
 
+    <button id="btn-delete">Delete</button>
+    <button id="btn-edit">Edit</button>
+
+    <input type="text" name="id-post" id="id-post" value="<%= post.id %>" hidden>
+
     <h1><%= post.title %> </h1>
     <div>
         <%- post.body %> 
     </div>
     <iframe src="<%=post.geogebra%>" frameborder="0"></iframe>
+
+    <script src="/js/show_post_script.js"></script>
 </body>
 </html>

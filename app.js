@@ -122,28 +122,33 @@ function mergeImageName(arr=[]){
     return res;
 }
 
-app.delete('/image-delete',(req,res)=>{
-    const pathFile = req.body.pathFile;
-    // Get folder img and file Name of the Image from src
-    let pathArr = pathFile.split('/');
-    const pathLen = pathArr.length;
-    const path = '/public/'+pathArr[pathLen-2]+'/'+pathArr[pathLen-1];
-
-    // fs.unlink(__dirname+path,(err)=>{
-    //     if(err){
-    //         console.log(err);
-    //         res.json(err);
-    //     }
-    //     res.json(pathFile);
-    // });
-    const deleted = deleteImage(__dirname+path);
-    if(deleted){
-        res.json(pathFile);
-    }else{
-        res.json("error");
+// Delete Post API
+app.delete('/post-delete/:id', async(req,res)=>{
+    let id = req.params.id.trim();
+    try{
+        const data = await Post.destroy({
+            where:{
+                id:id
+            }
+        });
+        const result = {
+            notif:"berhasil dihapus"
+        }
+        return res.json({"notif":"berhasil"});
+    }catch(err){
+        console.log(err);
+        res.json(err);
     }
 
-    
+})
+
+app.delete('/image-delete',(req,res)=>{
+    const images = req.body.images;
+    let imgNameArr = images.split(',');
+    console.log(imgNameArr);
+    cloudinary.api.delete_resources(imgNameArr,
+    function(error, result) {console.log(result, error); });
+
 })
 
 app.listen(port,()=>{
