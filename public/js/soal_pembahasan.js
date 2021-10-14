@@ -1,15 +1,12 @@
-// Setutp tinymce wysiswyg editor
 tinymce.init({
     selector: 'textarea',
     // relative_urls : false,
     // remove_script_host : false,
     // document_base_url : "http://localhost:3000/",
     convert_urls: false,
-    toolbar: 'tiny_mce_wiris_formulaEditor numlist bullist',
-    plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak autosave lists',
-    // extended_valid_elements : "iframe[src|frameborder|style|scrolling|class|width|height|name|align]",
+    toolbar: 'tiny_mce_wiris_formulaEditor | image | aligncenter alignjustify alignleft bold italic underline fontselect fontsizeselect | styleselect | numlist bullist ',
+    plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak autosave',
     autosave_interval:'4s',
-    content_style: 'div { margin: 10px; border: 5px solid red; padding: 3px; } ',
     paste_data_images: true,
     height:500,
     automatic_uploads:false,
@@ -46,7 +43,6 @@ function uploadImage(blobInfo, success, failure, progress){
     .then(result => {
     
         success(result.location);
-    
     })
     .catch(error => {
         console.error('Error:', error);
@@ -54,7 +50,7 @@ function uploadImage(blobInfo, success, failure, progress){
     });
 }
 
-
+// Upload Images first then Submit the Form
 const form = document.querySelector("form");
 form.onsubmit=(e)=>{
     tinymce.activeEditor.uploadImages((success)=>{
@@ -67,13 +63,6 @@ form.onsubmit=(e)=>{
      
     },3000)
     return false;
-    
 }
 
-
-
-
-
-
-
-
+// Function If Paket Soal Empty

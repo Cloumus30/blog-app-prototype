@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tiny.cloud/1/s5b8jmmq6w03xfpbxoe6eophnsimtz9igqk61qsmgq2d2l97/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <title>Soal Dan Pembahasan</title>
+</head>
+<body>
+    <h1>Input Soal Dan Pembahasan</h1>
+    <form action="/insert-soal" method="post">
+        <label for="paket_soal">Paket Soal: </label>
+        <select name="paket_soal" id="paket_soal">
+            <% if (Object.keys(locals.paketSoal).length!==0) { %>
+                <% paketSoal.forEach(paket => { %>
+                    <option value="<%= paket.id %>"><%= paket.nama_paket %> </option>
+                <% }) %>
+            <% } %>
+            
+        </select>
+        <label for="soal">Soal</label>
+        <br>
+        <textarea name="soal" id="soal" cols="150" rows="10"></textarea>
+        <hr>
+        <h3>Pilihan Ganda:</h3>
+        <label for="pilA">A.</label>
+        <input type="text" id="pilA" name="pilA" class="pilgan">
+        <label for="pilB">B.</label>
+        <input type="text" id="pilB" name="pilB" class="pilgan">
+        <label for="pilC">C.</label>
+        <input type="text" id="pilC" name="pilC" class="pilgan">
+        <label for="pilD">D.</label>
+        <input type="text" id="pilD" name="pilD" class="pilgan">
+        <label for="pilE">E.</label>
+        <input type="text" id="pilE" name="pilE" class="pilgan">
+        <hr>
+        <label for="pembahasan">Pembahasan</label>
+        <br>
+        <textarea name="pembahasan" id="pembahasan" cols="150" rows="10"></textarea>
+        <button type="submit">submit</button>
+    </form>
+    
+    
+    <script src="/js/pilgan.js"></script>
+    <script src="/js/soal_pembahasan.js"></script>
+</body>
+</html>

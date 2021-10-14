@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>notifPage</title>
+</head>
+<body>
+    <input type="text" hidden value="<%= notif.alert %>" id="alertVal"> 
+    <input type="text" id="linkVal" hidden value="<%= notif.redirect %> ">
+
+    <script>
+        const alertVal = document.querySelector('#alertVal').value;
+        const link = document.getElementById('linkVal').value;
+        console.log(link);
+        alert(`${alertVal}`);
+        window.location.href = link;
+    </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const {Post} = require('./models/index');
+const {Post, Soal, PaketSoal} = require('./models/index');
 const fs = require('fs');
 const fileUpload =  require('express-fileupload');
 const moment = require('moment');
@@ -231,6 +231,80 @@ app.delete('/image-delete',(req,res)=>{
             }); 
         }
     }
+});
+
+app.get('/insert-paket-soal',(req,res)=>{
+    res.render('insert_paket_soal');
+});
+
+app.post('/insert-paket-soal',async (req,res)=>{
+    const request = req.body;
+    try {
+        const dat = await PaketSoal.create({
+            nama_paket: request.namaPaket
+        });
+        res.redirect('/');
+    } catch (error) {
+        console.log(error);
+        res.json(error);
+    }
+})
+
+app.get('/soal',async (req,res)=>{
+   try {
+       const data = await Soal.findAll();
+       console.log(data);
+       res.json(data);
+   } catch (error) {
+       console.log(error);
+       res.json(error);
+   } 
+});
+
+app.get('/insert-soal',async (req,res)=>{
+    try {
+        let paketSoal = await PaketSoal.findAll();
+        // paketSoal = {}
+        if(Object.keys(paketSoal).length===0){
+            notif = {
+                alert:'Paket Soal Tidak ada, Isi dulu paket Soal',
+                redirect:'/insert-paket-soal'
+            };
+            return res.render('notifPage',{notif});
+        }
+        return res.render('soal_pembahasan',{paketSoal});
+    } catch (error) {
+        console.log(error);
+        res.json(error);
+    }
+});
+
+app.post('/insert-soal',async (req,res)=>{
+   const request = req.body;
+   const data  = {
+       soal:request.soal,
+       pilA: request.pilA,
+       pilB: request.pilB,
+       pilC: request.pilC,
+       pilD: request.pilD,
+       pilE: request.pilE,
+       pembahasan: request.pembahasan
+   };
+   const datJson = JSON.stringify(data);
+   console.log(datJson);
+//    console.log(JSON.stringify(request));
+   try {
+    const dat = await Soal.create({
+        soal: request
+    });
+    res.redirect('/insert-soal');    
+   } catch (error) {
+    console.log(error);
+    res.json(error);
+    
+   }
+   
+   
 });
 
 app.listen(port,()=>{
