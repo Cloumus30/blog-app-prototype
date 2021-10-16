@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Paket Soal</title>
+    <style>
+        th,td{
+            padding: 5px 10px 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Go to List Post: <a href="/">Here</a></h2>
+    <h2>Go to Soal Insert: <a href="/insert-soal">Here</a></h2>
+    <h2>Go to Paket Soal Insert: <a href="/insert-paket-soal">Sini</a></h2>
+    <table border="1px solid black">
+        <tr>
+            <th>No. </th>
+            <th>Judul</th>
+            <th>Link</th>
+            <th>Action</th>
+        </tr>
+        <% let i=1; paketSoal.forEach(paket => { %>
+            <tr>
+                <td><%= i %> </td>
+                <td><%= paket.nama_paket %> </td>
+                <td><a href="/soal/<%=paket.id%>">Lihat Soal</a></td>
+                <td>
+                    <button>
+                        <a href="/edit-paket-soal/<%= paket.id %>">Edit Paket Soal</a>
+                    </button>
+                </td>
+            </tr>
+        <% i+=1; }) %>
+        
+        
+    </table>
+    
+</body>
+</html>

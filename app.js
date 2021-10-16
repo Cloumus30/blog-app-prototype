@@ -233,9 +233,50 @@ app.delete('/image-delete',(req,res)=>{
     }
 });
 
+app.get('/paket-soal', async (req,res)=>{
+    try {
+        const data = await PaketSoal.findAll();
+        // console.log(data);
+        res.render('list_paket_soal',{paketSoal:data});
+    } catch (error) {
+        console.log(error);
+        res.json(error);
+    }
+});
+
+
 app.get('/insert-paket-soal',(req,res)=>{
     res.render('insert_paket_soal');
 });
+
+app.get('/edit-paket-soal/:id',async (req,res)=>{
+    const id = req.params.id.trim();
+    try {
+        const data = await PaketSoal.findByPk(id);
+        res.render('insert_paket_soal',{paketSoal:data});    
+    } catch (error) {
+        console.log(error);
+    }
+    
+});
+
+app.post('/update-paket-soal',async (req,res)=>{
+    const id = req.body.id;
+    const request = req.body;
+    try {
+        const dat = await PaketSoal.update({
+            nama_paket:request.namaPaket
+        },{
+            where:{
+                id:id
+            }
+        });
+        res.redirect('/paket-soal');
+    } catch (error) {
+        console.log(error);
+        res.json(error);
+    }
+})
 
 app.post('/insert-paket-soal',async (req,res)=>{
     const request = req.body;
@@ -250,15 +291,33 @@ app.post('/insert-paket-soal',async (req,res)=>{
     }
 })
 
-app.get('/soal',async (req,res)=>{
-   try {
-       const data = await Soal.findAll();
-       console.log(data);
-       res.json(data);
-   } catch (error) {
-       console.log(error);
-       res.json(error);
-   } 
+// app.get('/soal',async (req,res)=>{
+//    try {
+//        const data = await Soal.findAll();
+//        console.log(data);
+//        res.json(data);
+//    } catch (error) {
+//        console.log(error);
+//        res.json(error);
+//    } 
+// });
+
+// show All Soal from Paket Soal
+app.get('/soal/:id', async (req,res)=>{
+    const id = req.params.id.trim();
+    try {
+        const paket = await PaketSoal.findByPk(id);
+        const data = await Soal.findAll({
+            where:{
+                nama_paket:id
+            }
+        });
+        // console.log(data);
+        res.render('soal',{soal:data,paket});
+    } catch (error) {
+        console.log(error);
+        res.json(error);
+    }
 });
 
 app.get('/insert-soal',async (req,res)=>{
@@ -272,12 +331,63 @@ app.get('/insert-soal',async (req,res)=>{
             };
             return res.render('notifPage',{notif});
         }
-        return res.render('soal_pembahasan',{paketSoal});
+        return res.render('insert_soal_pembahasan',{paketSoal});
     } catch (error) {
         console.log(error);
         res.json(error);
     }
 });
+
+
+// Go to Edit Soal Page
+app.get('/edit-soal/:id',async(req,res)=>{
+    const id = req.params.id.trim();
+    try {
+        const dat = await Soal.findByPk(id);
+        const paket = await PaketSoal.findByPk(dat.nama_paket);
+        const pakets = await PaketSoal.findAll();
+        if(Object.keys(pakets).length===0){
+            notif = {
+                alert:'Paket Soal Tidak ada, Isi dulu paket Soal',
+                redirect:'/insert-paket-soal'
+            };
+            return res.render('notifPage',{notif});
+        }
+        res.render('edit_soal',{soal:dat,pakets,paket});
+    } catch (error) {
+        console.log(error);
+        res.json(error);
+    }
+});
+
+app.post('/update-soal/:id',async (req,res)=>{
+    const id = req.params.id.trim();
+    const request = req.body;
+    try {
+        const data  = {
+            soal:request.soal,
+            pilA: request.pilA,
+            pilB: request.pilB,
+            pilC: request.pilC,
+            pilD: request.pilD,
+            pilE: request.pilE,
+            pembahasan: request.pembahasan
+        };
+        const dat = await Soal.update({
+            dat_soal: data,
+            nama_paket: request.paket_soal
+        },{
+            where:{
+                id:id
+            }
+        });
+        res.redirect(`/`);
+    } catch (error) {
+        console.log(error);
+        res.json(error);
+    }
+})
+
 
 app.post('/insert-soal',async (req,res)=>{
    const request = req.body;
@@ -290,12 +400,13 @@ app.post('/insert-soal',async (req,res)=>{
        pilE: request.pilE,
        pembahasan: request.pembahasan
    };
-   const datJson = JSON.stringify(data);
-   console.log(datJson);
+//    const datJson = JSON.stringify(data);
+//    console.log(datJson);
 //    console.log(JSON.stringify(request));
    try {
     const dat = await Soal.create({
-        soal: request
+        dat_soal: data,
+        nama_paket: request.paket_soal
     });
     res.redirect('/insert-soal');    
    } catch (error) {
@@ -304,7 +415,21 @@ app.post('/insert-soal',async (req,res)=>{
     
    }
    
-   
+});
+
+app.post('/delete-soal/:id',async (req,res)=>{
+    const id = req.params.id.trim();
+    try {
+        const data = await Soal.destroy({
+            where:{
+                id:id
+            }
+        });
+        res.redirect('/paket-soal');
+    } catch (error) {
+        console.log(error);
+        res.json(error);
+    }
 });
 
 app.listen(port,()=>{

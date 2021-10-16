@@ -8,6 +8,7 @@
     <title>Soal Dan Pembahasan</title>
 </head>
 <body>
+    <h2><a href="/">Home</a></h2>
     <h1>Input Soal Dan Pembahasan</h1>
     <form action="/insert-soal" method="post">
         <label for="paket_soal">Paket Soal: </label>
@@ -38,11 +39,11 @@
         <label for="pembahasan">Pembahasan</label>
         <br>
         <textarea name="pembahasan" id="pembahasan" cols="150" rows="10"></textarea>
-        <button type="submit">submit</button>
+        <button type="button" id="submitBtn">submit</button>
     </form>
     
     
     <script src="/js/pilgan.js"></script>
-    <script src="/js/soal_pembahasan.js"></script>
+    <script src="/js/insert_soal_pembahasan.js"></script>
 </body>
 </html>

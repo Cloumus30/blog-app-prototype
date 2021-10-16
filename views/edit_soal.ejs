@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tiny.cloud/1/s5b8jmmq6w03xfpbxoe6eophnsimtz9igqk61qsmgq2d2l97/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <title>Soal Dan Pembahasan</title>
+</head>
+<body>
+    <h2><a href="/">Home</a></h2>
+    <h1>Edit Soal Dan Pembahasan</h1>
+    <form action="/update-soal/<%= soal.id %>" method="post">
+        <label for="paket_soal">Paket Soal: </label>
+        <select name="paket_soal" id="paket_soal">
+            <% if (Object.keys(locals.pakets).length!==0) { %>
+                <% pakets.forEach(pkt => { %>
+                    <% if (pkt.id==paket.id) { %>
+                        <option value="<%= pkt.id %>" selected><%= pkt.nama_paket %> </option>
+                    <% }else{ %>
+                        <option value="<%= pkt.id %>"><%= pkt.nama_paket %> </option>
+                    <% } %>
+                <% }) %>
+            <% } %>
+            
+        </select>
+        <label for="soal">Soal</label>
+        <br>
+        <textarea class="soal-pembahasan" name="soal" id="soal" cols="150" rows="10"><%- soal.dat_soal.soal %> </textarea>
+        <hr>
+        <h3>Pilihan Ganda:</h3>
+        <label for="pilA">A.</label>
+        <textarea name="pilA" id="pilA" class="pilgan" ><%- soal.dat_soal.pilA %> </textarea>
+        <label for="pilB">B.</label>
+        <textarea name="pilB" id="pilB" class="pilgan" ><%- soal.dat_soal.pilB %> </textarea>
+        <label for="pilC">C.</label>
+        <textarea name="pilC" id="pilC" class="pilgan" ><%- soal.dat_soal.pilC %> </textarea>
+        <label for="pilD">D.</label>
+        <textarea name="pilD" id="pilD" class="pilgan" ><%- soal.dat_soal.pilD %> </textarea>
+        <label for="pilE">E.</label>
+        <textarea name="pilE" id="pilE" class="pilgan" ><%- soal.dat_soal.pilE %> </textarea>
+        <hr>
+        <label for="pembahasan">Pembahasan</label>
+        <br>
+        <textarea class="soal-pembahasan" name="pembahasan" id="pembahasan" cols="150" rows="10"><%- soal.dat_soal.pembahasan %> </textarea>
+        <button type="button" id="submitBtn">submit</button>
+    </form>
+    
+    
+    <script src="/js/edit_pilgan.js"></script>
+    <script src="/js/edit_soal.js"></script>
+</body>
+</html>

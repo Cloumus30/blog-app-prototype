@@ -4,7 +4,7 @@ tinymce.init({
     // remove_script_host : false,
     // document_base_url : "http://localhost:3000/",
     convert_urls: false,
-    toolbar: 'tiny_mce_wiris_formulaEditor | image | aligncenter alignjustify alignleft bold italic underline fontselect fontsizeselect | styleselect | numlist bullist ',
+    toolbar: 'tiny_mce_wiris_formulaEditor | image | alignleft aligncenter alignright alignjustify bold italic underline fontselect fontsizeselect | styleselect | numlist bullist ',
     plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak autosave',
     autosave_interval:'4s',
     paste_data_images: true,
@@ -51,18 +51,25 @@ function uploadImage(blobInfo, success, failure, progress){
 }
 
 // Upload Images first then Submit the Form
-const form = document.querySelector("form");
-form.onsubmit=(e)=>{
-    tinymce.activeEditor.uploadImages((success)=>{
-        console.log('sukses');
-        document.forms[0].submit();
-        
-    });
-    setTimeout(()=>{
-    //  console.log(tinymce.activeEditor.getContent());
-     
-    },3000)
-    return false;
-}
+
+const submitBtn = document.getElementById('submitBtn');
+submitBtn.addEventListener('click', async (e)=>{
+    let i=0;
+    while(i<7){
+        let data = await tinymce.editors[i].uploadImages();
+        i++;
+    }
+    document.forms[0].submit();
+})
+
+// const form = document.querySelector("form");
+// form.onsubmit= async (e)=>{
+//     //Upload Images for all editor
+    
+//     // tinymce.editors[i].uploadImages((success)=>{
+//     //     document.forms[0].submit();
+//     // });
+//     return false;
+// }
 
 // Function If Paket Soal Empty

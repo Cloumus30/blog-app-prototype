@@ -1,6 +1,5 @@
-// Setutp tinymce wysiswyg editor
 tinymce.init({
-    selector: 'textarea',
+    selector: '.soal-pembahasan',
     // relative_urls : false,
     // remove_script_host : false,
     // document_base_url : "http://localhost:3000/",
@@ -51,24 +50,6 @@ function uploadImage(blobInfo, success, failure, progress){
     });
 }
 
-// Upload Images first then Submit the Form
-const form = document.querySelector("form");
-form.onsubmit=(e)=>{
-    tinymce.activeEditor.uploadImages((success)=>{
-        console.log('sukses');
-        document.forms[0].submit();
-        
-    });
-    setTimeout(()=>{
-    //  console.log(tinymce.activeEditor.getContent());
-     
-    },3000)
-    return false;
-    
-}
-//public Id is term for name in cloudinary
-
-
 // Image Delete from editor and server
 function deleteImage (e){
     const formData = new FormData();
@@ -96,3 +77,15 @@ function deleteImage (e){
         
     }
 }
+
+// Upload Images first then Submit the Form
+
+const submitBtn = document.getElementById('submitBtn');
+submitBtn.addEventListener('click', async (e)=>{
+    let i=0;
+    while(i<7){
+        let data = await tinymce.editors[i].uploadImages();
+        i++;
+    }
+    document.forms[0].submit();
+})

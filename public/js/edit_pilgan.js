@@ -1,32 +1,31 @@
-// Setutp tinymce wysiswyg editor
 tinymce.init({
-    selector: 'textarea',
+    selector: '.pilgan',
     // relative_urls : false,
     // remove_script_host : false,
     // document_base_url : "http://localhost:3000/",
     convert_urls: false,
-    toolbar: 'tiny_mce_wiris_formulaEditor | image | alignleft aligncenter alignright alignjustify bold italic underline fontselect fontsizeselect | styleselect | numlist bullist ',
-    plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak autosave lists',
-    // extended_valid_elements : "iframe[src|frameborder|style|scrolling|class|width|height|name|align]",
+    toolbar: 'tiny_mce_wiris_formulaEditor image | bold italic underline fontselect fontsizeselect',
+    menubar:false,
+    plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak autosave',
     autosave_interval:'4s',
-    content_style: 'div { margin: 10px; border: 5px solid red; padding: 3px; } ',
     paste_data_images: true,
-    height:500,
+    height:300,
+    width:800,
     automatic_uploads:false,
     external_plugins: {
         'tiny_mce_wiris' : 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js'
     },
     
     // toolbar_mode: 'floating',
-    image_class_list: [
-        {title:'responsive', value:'img-responsive'}
-    ],
+    // image_class_list: [
+    //     {title:'responsive', value:'img-responsive'}
+    // ],
     images_upload_url: '/image-upload',
 
     images_upload_handler: uploadImage,
 
     setup: (ed)=>{
-        // ed.on('keyDown',deleteImage);
+        ed.on('keyDown',deleteImage);
         // ed.on('NodeChange',cancelInputImage);
     }
     
@@ -46,34 +45,9 @@ function uploadImage(blobInfo, success, failure, progress){
     .then(result => {
     
         success(result.location);
-    
     })
     .catch(error => {
         console.error('Error:', error);
         failure('cannot upload');
     });
 }
-
-
-const form = document.querySelector("form");
-form.onsubmit=(e)=>{
-    tinymce.activeEditor.uploadImages((success)=>{
-        console.log('sukses');
-        document.forms[0].submit();
-        
-    });
-    setTimeout(()=>{
-    //  console.log(tinymce.activeEditor.getContent());
-     
-    },3000)
-    return false;
-    
-}
-
-
-
-
-
-
-
-

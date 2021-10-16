@@ -7,12 +7,22 @@
     <title>Input Paket Soal</title>
 </head>
 <body>
-    <h2>Input Paket Soal</h2>
-    <form action="/insert-paket-soal" method="post">
+    <% if (locals.paketSoal) { %>
+        <h2>Edit Paket Soal: <%= paketSoal.nama_paket %> </h2>
+    <form action="/update-paket-soal" method="post">
         <label for="nama-paket">Nama Paket Soal: </label>
-        <input type="text" id="nama-paket" name="namaPaket">
+        <input type="text" id="nama-paket" name="namaPaket" value="<%= paketSoal.nama_paket %>">
+        <input type="text" name="id" value="<%= paketSoal.id %>" hidden>
         <button type="submit">submit</button>
-    </form>
+    </form>    
+    <% }else{ %>
+        <h2>Input Paket Soal</h2>
+        <form action="/insert-paket-soal" method="post">
+            <label for="nama-paket">Nama Paket Soal: </label>
+            <input type="text" id="nama-paket" name="namaPaket">
+            <button type="submit">submit</button>
+        </form>
+    <% } %> 
     
 </body>
 </html>
