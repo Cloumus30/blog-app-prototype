@@ -31,11 +31,56 @@ app.get('/post/:id',async (req,res)=>{
     
 });
 
+// function get images from string html
+function getImages(html = ''){
+    const imgRex = /<img.*?src="(.*?)"[^>]+>/g;
+    const images = [];
+    let img;
+    while ((img = imgRex.exec(html))) {
+        images.push(img[1]);
+    }
+    return images;
+}
+
+// function to remove img tag and slice the string
+function getDesc(html=''){
+    let result = html.replace(/<img.*?src="(.*?)"[^>]+>/g,""); //delete image
+    result = result.replace(/<[^>]*>?/gm,''); // delete html tag
+    result = result.slice(0,300);
+    return result;
+}
+
 app.get('/',async (req,res)=>{
     // console.log(cloudinary.config());
-    const posts = await Post.findAll();
+    // const posts = await Post.findAndCountAll();
+    let page = 1;
+    let pageSize = 2;
+    let URLQuery = {
+        page:page,
+        pageSize:pageSize,
+    };
+    if(req.query.page){
+        page = req.query.page;
+        URLQuery.page =  page;
+    }
+    
+    let offset = (page-1)*pageSize;
+    const posts = await Post.findAndCountAll({
+        limit:pageSize,
+        offset:offset,
+    });
 
-    res.render('dashboard',{posts});
+    posts.rows.forEach(element => {
+        let imagesArr = getImages(element.body); //get images from html string
+        element.image = imagesArr[0];
+        // if image doesn't exist use the default image
+        if(!element.image){
+            element.image = "/img/default-post.jpg"
+        }
+        let desc = getDesc(element.body); //get description from teks
+        element.desc = desc;
+    });
+    res.render('dashboard',{posts,iter:offset,URLQuery:URLQuery});
 });
 
 app.get('/insert',async (req,res)=>{
