@@ -23,7 +23,7 @@
                         <div class="section_1">
                             <a href="/post/<%= post.id %>"><img height="250px" src="<%=post.image%>" style="max-width: 100%;"></a>
                             <!-- Updated At -->
-                            <button type="button" class="date-bt">26 JULY 2019</button> 
+                            <button type="button" class="date-bt"><%= post.datePost %> </button> 
                             <!-- Penggalan -->
                             <p class="h3"><a class="text-primary" href="/post/<%= post.id %>"><%= post.title %> </a></p>
                             <p><%= post.desc %> </p>

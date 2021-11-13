@@ -4,6 +4,7 @@ const {Post, Soal, PaketSoal} = require('./models/index');
 const fs = require('fs');
 const fileUpload =  require('express-fileupload');
 const moment = require('moment');
+const sequelize = require('sequelize');
 const { customAlphabet}  = require("nanoid");
 const cloudinary = require("cloudinary").v2;
 const { stringify } = require("querystring");
@@ -69,12 +70,16 @@ app.get('/',async (req,res)=>{
 
     let URLQuery = pagination(req.query);
 
-    const posts = await Post.findAndCountAll({
-        limit:URLQuery.pageSize,
-        offset:URLQuery.offset,
-    });
+    try {
+        const posts = await Post.findAndCountAll({
+            limit:URLQuery.pageSize,
+            offset:URLQuery.offset,
+            order:[
+                ['updatedAt','DESC']
+            ]
+        });    
 
-    // get image and desc from post
+        // get image and desc from post
     posts.rows.forEach(element => {
         let imagesArr = getImages(element.body); //get images from html string
         element.image = imagesArr[0];
@@ -84,9 +89,21 @@ app.get('/',async (req,res)=>{
         }
         let desc = getDesc(element.body); //get description from teks
         element.desc = desc;
+
+        // Change format date
+        let dateVal = element.updatedAt;
+        dateVal = dateVal.toString();
+        dateVal = new Date(dateVal);
+        dateVal = moment(dateVal).format('DD MMMM YYYY')
+        element.datePost = dateVal;
     });
 
     res.render('blog',{posts,URLQuery});
+
+    } catch (error) {
+        console.log(error);
+    }
+    
 });
 
 app.get('/insert',async (req,res)=>{
@@ -286,9 +303,35 @@ app.delete('/image-delete',(req,res)=>{
 
 app.get('/paket-soal', async (req,res)=>{
     try {
-        const data = await PaketSoal.findAll();
+        const posts = await Post.findAndCountAll({
+            limit:5,
+            order:[
+                ['updatedAt','DESC']
+            ]
+        });    
+
+        // get image and desc from post
+        posts.rows.forEach(element => {
+        let imagesArr = getImages(element.body); //get images from html string
+        element.image = imagesArr[0];
+        // if image doesn't exist use the default image
+        if(!element.image){
+            element.image = "/img/default-post.jpg"
+        }
+        let desc = getDesc(element.body); //get description from teks
+        element.desc = desc;
+
+        // Change format date
+        let dateVal = element.updatedAt;
+        dateVal = dateVal.toString();
+        dateVal = new Date(dateVal);
+        dateVal = moment(dateVal).format('DD MMMM YYYY')
+        element.datePost = dateVal;
+    });
+
+        const paketSoal = await PaketSoal.findAll();
         // console.log(data);
-        res.render('list_paket_soal',{paketSoal:data});
+        res.render('list_paket_soal',{paketSoal,posts});
     } catch (error) {
         console.log(error);
         res.json(error);

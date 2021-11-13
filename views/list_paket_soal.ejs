@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List Paket Soal</title>
-    <style>
-        th,td{
-            padding: 5px 10px 5px 10px;
-        }
-    </style>
+    <%- include('partial/head') %> 
 </head>
 <body>
-    <h2>Go to List Post: <a href="/">Here</a></h2>
+    <%- include('partial/header') %> 
+
+    <!-- Blog Start -->
+    <div class="blog_main">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-sm-12">
+    				<h1 class="blog_text">List soal Dan Pembahasan</h1>
+    			</div>
+    	    </div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <ul class="text-primary">
+                        <% let i=1; paketSoal.forEach(paket => { %>
+                            <li class="pt-4" class="text-primary">
+                                <a class="text-primary h5" href="/soal/<%=paket.id%>"><%= i %>. <%= paket.nama_paket %>  </a>
+                                <a href="/edit-paket-soal/<%= paket.id %>" class="ml-lg-5 btn btn-sm btn-success">Edit</a>
+                            </li>
+                        <% i+=1; }) %>
+                        
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <% posts.rows.forEach(post => { %>
+                        <div class="container-fluid mb-4 border">
+                            <a href="#"><img src="<%= post.image %> " style="max-width: 100%;"></a>
+                                <button type="button" class="date-bt"><%= post.datePost %> </button>
+                                <a class="text-primary" href="/post/<%= post.id %>"><p class="h4"><%= post.title %> </p></a>
+                                <p class="my-0"><%= post.desc %> </p>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+       	</div>
+    </div> 
+    <!--blog end -->
+
+    <!-- <h2>Go to List Post: <a href="/">Here</a></h2>
     <h2>Go to Soal Insert: <a href="/insert-soal">Here</a></h2>
-    <h2>Go to Paket Soal Insert: <a href="/insert-paket-soal">Sini</a></h2>
-    <table border="1px solid black">
-        <tr>
-            <th>No. </th>
-            <th>Judul</th>
-            <th>Link</th>
-            <th>Action</th>
-        </tr>
-        <% let i=1; paketSoal.forEach(paket => { %>
-            <tr>
-                <td><%= i %> </td>
-                <td><%= paket.nama_paket %> </td>
-                <td><a href="/soal/<%=paket.id%>">Lihat Soal</a></td>
-                <td>
-                    <button>
-                        <a href="/edit-paket-soal/<%= paket.id %>">Edit Paket Soal</a>
-                    </button>
-                </td>
-            </tr>
-        <% i+=1; }) %>
-        
-        
-    </table>
+    <h2>Go to Paket Soal Insert: <a href="/insert-paket-soal">Sini</a></h2> -->
+   
+
+    <%- include('partial/contact')  %> 
     
+    <%- include('partial/copyright')  %> 
+
+    <%- include('partial/footer') %> 
 </body>
 </html>
