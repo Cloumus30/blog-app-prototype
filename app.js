@@ -50,26 +50,31 @@ function getDesc(html=''){
     return result;
 }
 
-app.get('/',async (req,res)=>{
-    // console.log(cloudinary.config());
-    // const posts = await Post.findAndCountAll();
-    let page = 1;
-    let pageSize = 2;
+// function for pagination
+function pagination(query={},page=1,pageSize=10){
     let URLQuery = {
         page:page,
         pageSize:pageSize,
     };
-    if(req.query.page){
-        page = req.query.page;
+    if(query.page){
+        page = query.page;
         URLQuery.page =  page;
     }
-    
-    let offset = (page-1)*pageSize;
+    URLQuery.offset = (page-1)*pageSize;
+
+    return URLQuery;
+}
+
+app.get('/',async (req,res)=>{
+
+    let URLQuery = pagination(req.query);
+
     const posts = await Post.findAndCountAll({
-        limit:pageSize,
-        offset:offset,
+        limit:URLQuery.pageSize,
+        offset:URLQuery.offset,
     });
 
+    // get image and desc from post
     posts.rows.forEach(element => {
         let imagesArr = getImages(element.body); //get images from html string
         element.image = imagesArr[0];
@@ -80,7 +85,8 @@ app.get('/',async (req,res)=>{
         let desc = getDesc(element.body); //get description from teks
         element.desc = desc;
     });
-    res.render('dashboard',{posts,iter:offset,URLQuery:URLQuery});
+
+    res.render('blog',{posts,URLQuery});
 });
 
 app.get('/insert',async (req,res)=>{
