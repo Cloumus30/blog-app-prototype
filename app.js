@@ -17,20 +17,8 @@ app.set('views' , './views');
 
 app.use(fileUpload());
 app.use(express.static('public'));
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-
-app.get('/post/:id',async (req,res)=>{
-    const id = req.params.id;
-    try{
-        const post = await Post.findByPk(id);
-    // res.json(post)
-    res.render('show_post',{post});
-    }catch(err){
-        console.log(err);
-    }
-    
-});
 
 // function get images from string html
 function getImages(html = ''){
@@ -66,7 +54,15 @@ function pagination(query={},page=1,pageSize=10){
     return URLQuery;
 }
 
-app.get('/',async (req,res)=>{
+app.get('/about', async(req,res)=>{
+    res.render('about');
+})
+
+app.get('/', async (req,res)=>{
+    res.render('index')
+});
+
+app.get('/blog',async (req,res)=>{
 
     let URLQuery = pagination(req.query);
 
@@ -106,9 +102,20 @@ app.get('/',async (req,res)=>{
     
 });
 
-app.get('/insert',async (req,res)=>{
-    res.render('main');
+app.get('/insert-post',async (req,res)=>{
+    res.render('insert-post');
 })
+
+app.get('/post/:id',async (req,res)=>{
+    const id = req.params.id;
+    try{
+        const post = await Post.findByPk(id);
+    // res.json(post)
+    res.render('show_post',{post});
+    }catch(err){
+        console.log(err);
+    }
+});
 
 app.get('/edit-post/:id',async(req,res)=>{
     const id = req.params.id.trim();
@@ -135,7 +142,7 @@ app.post('/insert-post', async (req,res)=>{
             body:request.body,
             geogebra:request.geogebra
         });
-        res.redirect('/');
+        res.redirect('/blog');
     }catch(err){
         console.log(err);
     }
@@ -156,7 +163,7 @@ app.post('/update-post/:id',async (req,res)=>{
                 id:id
             }
         });
-        res.redirect(`/`);
+        res.redirect(`/blog`);
     } catch (error) {
         console.log(error);
         res.json(error);
@@ -378,23 +385,12 @@ app.post('/insert-paket-soal',async (req,res)=>{
         const dat = await PaketSoal.create({
             nama_paket: request.namaPaket
         });
-        res.redirect('/');
+        res.redirect('/paket-soal');
     } catch (error) {
         console.log(error);
         res.json(error);
     }
 })
-
-// app.get('/soal',async (req,res)=>{
-//    try {
-//        const data = await Soal.findAll();
-//        console.log(data);
-//        res.json(data);
-//    } catch (error) {
-//        console.log(error);
-//        res.json(error);
-//    } 
-// });
 
 // show All Soal from Paket Soal
 app.get('/soal/:id', async (req,res)=>{
@@ -425,7 +421,11 @@ app.get('/insert-soal',async (req,res)=>{
             };
             return res.render('notifPage',{notif});
         }
-        return res.render('insert_soal_pembahasan',{paketSoal});
+        let idPaket = paketSoal[0].id;
+        if(req.query.idPaket){
+            idPaket = req.query.idPaket;
+        }
+        return res.render('insert_soal_pembahasan',{paketSoal,idPaket});
     } catch (error) {
         console.log(error);
         res.json(error);
@@ -475,7 +475,7 @@ app.post('/update-soal/:id',async (req,res)=>{
                 id:id
             }
         });
-        res.redirect(`/`);
+        res.redirect(`/paket-soal`);
     } catch (error) {
         console.log(error);
         res.json(error);
@@ -502,7 +502,7 @@ app.post('/insert-soal',async (req,res)=>{
         dat_soal: data,
         nama_paket: request.paket_soal
     });
-    res.redirect('/insert-soal');    
+    res.redirect('/paket-soal');    
    } catch (error) {
     console.log(error);
     res.json(error);

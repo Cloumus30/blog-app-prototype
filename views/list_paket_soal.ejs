@@ -9,13 +9,19 @@
     <!-- Blog Start -->
     <div class="blog_main">
     	<div class="container">
+            <div class="d-flex justify-content-end mt-3">
+                <a href="/insert-paket-soal" class="btn btn-info"><i class="fas fa-pen"></i> Input Paket Soal</a>
+                <a href="/insert-soal" class="btn btn-primary mx-3"><i class="fas fa-edit"></i> Input Soal</a>
+            </div>
+
     		<div class="row">
+                
     			<div class="col-sm-12">
     				<h1 class="blog_text">List soal Dan Pembahasan</h1>
     			</div>
     	    </div>
             <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-12 col-md-9">
                     <ul class="text-primary">
                         <% let i=1; paketSoal.forEach(paket => { %>
                             <li class="pt-4" class="text-primary">
@@ -26,7 +32,7 @@
                         
                     </ul>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-12 col-md-3">
                     <% posts.rows.forEach(post => { %>
                         <div class="container-fluid mb-4 border">
                             <a href="#"><img src="<%= post.image %> " style="max-width: 100%;"></a>
@@ -40,10 +46,6 @@
        	</div>
     </div> 
     <!--blog end -->
-
-    <!-- <h2>Go to List Post: <a href="/">Here</a></h2>
-    <h2>Go to Soal Insert: <a href="/insert-soal">Here</a></h2>
-    <h2>Go to Paket Soal Insert: <a href="/insert-paket-soal">Sini</a></h2> -->
    
 
     <%- include('partial/contact')  %> 

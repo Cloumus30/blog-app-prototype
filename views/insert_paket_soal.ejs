@@ -1,28 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('partial/head') %> 
     <title>Input Paket Soal</title>
 </head>
-<body>
-    <% if (locals.paketSoal) { %>
-        <h2>Edit Paket Soal: <%= paketSoal.nama_paket %> </h2>
-    <form action="/update-paket-soal" method="post">
-        <label for="nama-paket">Nama Paket Soal: </label>
-        <input type="text" id="nama-paket" name="namaPaket" value="<%= paketSoal.nama_paket %>">
-        <input type="text" name="id" value="<%= paketSoal.id %>" hidden>
-        <button type="submit">submit</button>
-    </form>    
-    <% }else{ %>
-        <h2>Input Paket Soal</h2>
-        <form action="/insert-paket-soal" method="post">
-            <label for="nama-paket">Nama Paket Soal: </label>
-            <input type="text" id="nama-paket" name="namaPaket">
-            <button type="submit">submit</button>
-        </form>
-    <% } %> 
+
+<body>    
+<%- include('partial/header') %> 
+
+    <!-- Blog Start -->
+    <div class="blog_main">
+    	<div class="container-fluid">
+            <div class="d-flex justify-content-center">
+                <h2 class="h2">Input Paket Soal</h2>
+            </div>
+
+            <% if (locals.paketSoal) { %>
+                <h2>Edit Paket Soal: <%= paketSoal.nama_paket %> </h2>
+            <form action="/update-paket-soal" method="post">
+                <label for="nama-paket">Nama Paket Soal: </label>
+                <input type="text" id="nama-paket" name="namaPaket" value="<%= paketSoal.nama_paket %>">
+                <input type="text" name="id" value="<%= paketSoal.id %>" hidden>
+                <button type="submit">submit</button>
+            </form>    
+            <% }else{ %>
+                <h2>Input Paket Soal</h2>
+                <form action="/insert-paket-soal" method="post">
+                    <label for="nama-paket">Nama Paket Soal: </label>
+                    <input type="text" id="nama-paket" name="namaPaket">
+                    <button type="submit">submit</button>
+                </form>
+            <% } %> 
+       	</div>
+    </div> 
+
+    <!--blog end -->
+
+    <div style="height: 720px;"></div>
     
+    <%- include('partial/copyright')  %> 
+
+    <%- include('partial/footer') %> 
 </body>
 </html>
+
+
+

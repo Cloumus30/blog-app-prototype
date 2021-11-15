@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML"></script>
-    <title>POSTS</title>
+    <%- include('partial/head') %> 
+    <title>Blog List</title>
     <style>
         iframe{
             width: 100%;
             height: 700px;
         }
-        @media only screen and (max-width: 768px) {
+        /* @media only screen and (max-width: 768px) {
             img{
                 width: 100%;
                 height: auto;
@@ -20,23 +17,41 @@
                 width: 100%;
                 height: 400px;
             }    
-        }
+        } */
     </style>
 </head>
-<body>
-    <h2><a href="/">Home</a></h2>
 
-    <button id="btn-delete">Delete</button>
-    <button id="btn-edit"><a href="/edit-post/<%= post.id %>">Edit</a></button>
+<body>    
+<%- include('partial/header') %> 
 
-    <input type="text" name="id-post" id="id-post" value="<%= post.id %>" hidden>
+    <!-- Blog Start -->
+    <div class="blog_main">
+    	<div class="container-fluid">
+            <div class="row d-flex justify-content-end mt-4">
+                <a href="/edit-post/<%= post.id %>" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Post</a>
+                <div class="mx-4">
+                    <button class="btn btn-danger" id="btn-delete"><i class="fas fa-trash"></i> Hapus Post</button>
+                    <input type="text" value="<%= post.id %>" id="id-post" hidden>
+                </div>
+                
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <h1 class="h1"><%= post.title %> </h1>
+            </div>
+            
+            <%- post.body %> 
+            <hr>
+            <iframe src="<%=post.geogebra%>" frameborder="0"></iframe>
+       	</div>
+    </div> 
 
-    <!-- <h1><%= post.title %> </h1> -->
-    <div>
-        <%- post.body %> 
-    </div>
-    <iframe src="<%=post.geogebra%>" frameborder="0"></iframe>
+    <!--blog end -->
+    <%- include('partial/contact')  %> 
+    
+    <%- include('partial/copyright')  %> 
 
-    <script src="/js/show_post_script.js"></script>
+    <%- include('partial/footer') %> 
+    <script src="/js/show_post_script.js"></script> 
 </body>
 </html>
+

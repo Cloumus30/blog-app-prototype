@@ -13,20 +13,20 @@
     <div class="blog_main">
     	<div class="container-fluid">
             <div class="d-flex justify-content-center mt-5">
-                <h2 class="h2">Edit Post</h2>
+                <h2 class="h2">Input Post</h2>
             </div>
 
-            <form action="/update-post/<%= post.id %>" method="POST">
+            <form action="/insert-post" method="POST">
                 <label for="nama">Judul Pos:</label>
-                <input type="text" name="title" value="<%= post.title %>">
+                <input type="text" name="title">
                 <br>
                 <label for="post">Post</label>
                 <textarea name="body">
-                    <%= post.body %> 
+                    <p>Cloudias Imani Pradana</p>
                 </textarea>
                 <label for="geogebra">Input link Geogebra</label>
-                <input width="100px" type="text" name="geogebra" id="geogebra" value="<%= post.geogebra %>">
-                <button type="submit" id="form-button">Submit</button>
+                <input width="100px" type="text" name="geogebra" id="geogebra">
+                <button class="btn btn-success" type="submit" id="form-button">Submit</button>
             </form>
             <div style="height: 120px;"></div>
        	</div>
@@ -40,6 +40,6 @@
 
     <%- include('partial/footer') %> 
 
-    <script src="/js/edit_post.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
