@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include('partial/head') %> 
+    <link rel="stylesheet" href="/css/soal_pembahasan.css">
     <title>Soal Latihan</title>
 </head>
 
@@ -55,7 +56,11 @@
                         </tr>
                     </table>
                     <hr>
-                    <h4>Pembahasan: <%- el.dat_soal.pembahasan %> </h4>
+                    <button onclick="showPembahasan(this)">Lihat Pembahasan</button>
+                    <div class="pembahasan">
+                        <h4>Pembahasan: <%- el.dat_soal.pembahasan %> </h4>
+                    </div>
+                    
                 </div>    
                 <% i++ }) %>
                 <hr>
@@ -70,6 +75,7 @@
 
     <%- include('partial/footer') %> 
     <script src="/js/soal.js"></script>
+    <script src="/js/soal_pembahasan.js"></script>
 </body>
 </html>
 
