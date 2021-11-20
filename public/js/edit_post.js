@@ -54,6 +54,9 @@ function uploadImage(blobInfo, success, failure, progress){
 // Upload Images first then Submit the Form
 const form = document.querySelector("form");
 form.onsubmit=(e)=>{
+    const submitBtn = document.getElementById('form-button');
+    submitBtn.innerHTML = 'Loading...';
+    submitBtn.classList.add('disabled');
     tinymce.activeEditor.uploadImages((success)=>{
         console.log('sukses');
         document.forms[0].submit();

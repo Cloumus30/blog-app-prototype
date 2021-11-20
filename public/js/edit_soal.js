@@ -82,6 +82,8 @@ function deleteImage (e){
 
 const submitBtn = document.getElementById('submitBtn');
 submitBtn.addEventListener('click', async (e)=>{
+    submitBtn.innerHTML = 'Loading...';
+    submitBtn.classList.add('disabled');
     let i=0;
     while(i<7){
         let data = await tinymce.editors[i].uploadImages();
