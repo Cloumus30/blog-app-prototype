@@ -11,10 +11,12 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('User',[{
+   await queryInterface.bulkInsert('Users',[{
      name:"Nisfa Lailatul Azizah",
      username:"nisfalailatul",
-     password:"nisfa160599"
+     password:"$2a$12$M1VMgHUUx7GT4rKPwZAOpeE1jQsp4wkf5N96BoqUYBDDCqhAcpEfC", //bcrypt round(12)
+     createdAt: new Date(),
+     updatedAt: new Date()
    }])
   },
 
@@ -25,6 +27,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkInsert('User',null,{});
+    await queryInterface.bulkInsert('Users',null,{});
   }
 };

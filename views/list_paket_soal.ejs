@@ -9,11 +9,13 @@
     <!-- Blog Start -->
     <div class="blog_main">
     	<div class="container">
-            <div class="d-flex justify-content-end mt-3">
-                <a href="/insert-paket-soal" class="btn btn-info"><i class="fas fa-pen"></i> Input Paket Soal</a>
-                <a href="/insert-soal" class="btn btn-primary mx-3"><i class="fas fa-edit"></i> Input Soal</a>
-            </div>
-
+            <% if (locals.user !== null) { %>
+                <div class="d-flex justify-content-end mt-3">
+                    <a href="/insert-paket-soal" class="btn btn-info"><i class="fas fa-pen"></i> Input Paket Soal</a>
+                    <a href="/insert-soal" class="btn btn-primary mx-3"><i class="fas fa-edit"></i> Input Soal</a>
+                </div>    
+            <% } %>
+            
     		<div class="row">
                 
     			<div class="col-sm-12">
@@ -26,7 +28,9 @@
                         <% let i=1; paketSoal.forEach(paket => { %>
                             <li class="pt-4" class="text-primary">
                                 <a class="text-primary h5" href="/soal/<%=paket.id%>"><%= i %>. <%= paket.nama_paket %>  </a>
-                                <a href="/edit-paket-soal/<%= paket.id %>" class="ml-lg-5 btn btn-sm btn-success">Edit</a>
+                                <% if (locals.user !== null) { %>
+                                    <a href="/edit-paket-soal/<%= paket.id %>" class="ml-lg-5 btn btn-sm btn-success">Edit</a>
+                                <% } %>
                             </li>
                         <% i+=1; }) %>
                         

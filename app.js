@@ -9,15 +9,19 @@ const sequelize = require('sequelize');
 const cloudinary = require("cloudinary").v2;
 const { stringify } = require("querystring");
 const res = require("express/lib/response");
+const cookieParser = require("cookie-parser");
 const app = express();
 const port = process.env.PORT||3000;
 
 // Import routers
-const dashboarRoutes = require(path.join(__dirname+'/routers/dashboard-routes'));
+const dashboardRoutes = require(path.join(__dirname+'/routers/dashboard-routes'));
 const postRoutes = require(path.join(__dirname+'/routers/post-routes'));
 const imageRoutes = require(path.join(__dirname+'/routers/image-routes'));
 const paketSoalRoutes = require(path.join(__dirname+'/routers/paket-soal-routes'));
 const soalRoutes = require(path.join(__dirname+'/routers/soal-routes'));
+const authRoutes = require(path.join(__dirname+'/routers/auth-routes'));
+
+const {checkToken,currentUser} = require(path.join(__dirname,'middleware/auth-middleware'));
 
 app.set('view engine' , 'ejs');
 app.set('views' , './views');
@@ -26,13 +30,30 @@ app.use(fileUpload());
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+// // express-session
+// app.use(
+//     session({
+//         secret: 'blognisfa',
+//         resave: false,
+//         saveUninitialized: true,
+//     })
+// );
+app.use(cookieParser());
+
+app.use(authRoutes);
+// app.use(checkToken);
+app.use(currentUser);
 
 // Using Imported Routers
-app.use(dashboarRoutes);
+app.use(dashboardRoutes);
 app.use(postRoutes);
-app.use(imageRoutes);
 app.use(paketSoalRoutes);
 app.use(soalRoutes);
+app.use(imageRoutes);
+
+app.listen(port,()=>{
+    console.log(`Listen at port: ${port}`);
+})
 
 // app.get('/blog',async (req,res)=>{
 
@@ -498,6 +519,4 @@ app.use(soalRoutes);
 //     }
 // });
 
-app.listen(port,()=>{
-    console.log(`Listen at port: ${port}`);
-})
+

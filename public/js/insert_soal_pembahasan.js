@@ -34,7 +34,6 @@ function uploadImage(blobInfo, success, failure, progress){
     const formData = new FormData();
     // console.log(blobInfo.filename());
     formData.append('image', blobInfo.blob());
-
     fetch('/image-upload', {
     method: 'POST',
     body: formData
@@ -54,6 +53,7 @@ function uploadImage(blobInfo, success, failure, progress){
 
 const submitBtn = document.getElementById('submitBtn');
 submitBtn.addEventListener('click', async (e)=>{
+    submitBtn.innerHTML = 'proses'
     let i=0;
     while(i<7){
         let data = await tinymce.editors[i].uploadImages();

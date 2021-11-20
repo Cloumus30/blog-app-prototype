@@ -29,7 +29,30 @@
                                 <li class="nav-item" href="#">
                                     <a class="nav-link" href="/paket-soal">LATIHAN SOAL</a>
                                 </li>
-                                <li class="last"><a href="#"><img src="/img/search-icon.png" alt="icon"></a></li>
+                                <li class="last">
+                                    <% if (locals.user !== null) { %>
+                                        <div class="dropdown">
+                                            <button class="btn text-light bg-transparent dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              <%= locals.user.name %> 
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                              <a class="dropdown-item" href="#">Account</a>
+                                              <hr>
+                                              <a class="dropdown-item text-danger" href="/logout">Log Out</a>
+                                            </div>
+                                        </div>
+                                    <% }else{ %>
+                                        <div class="dropdown">
+                                            <button class="btn text-light bg-transparent dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              Guest
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                              <a class="dropdown-item" href="/login">Login</a>
+                                            </div>
+                                        </div>
+                                    <% } %> 
+                                    
+                                </li>
                             </ul>
                         </div>
                     </nav>

@@ -27,14 +27,17 @@
     <!-- Blog Start -->
     <div class="blog_main">
     	<div class="container-fluid">
-            <div class="row d-flex justify-content-end mt-4">
-                <a href="/edit-post/<%= post.id %>" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Post</a>
-                <div class="mx-4">
-                    <button class="btn btn-danger" id="btn-delete"><i class="fas fa-trash"></i> Hapus Post</button>
-                    <input type="text" value="<%= post.id %>" id="id-post" hidden>
-                </div>
-                
-            </div>
+            <% if (locals.user !== null) { %>
+                <div class="row d-flex justify-content-end mt-4">
+                    <a href="/edit-post/<%= post.id %>" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Post</a>
+                    <div class="mx-4">
+                        <button class="btn btn-danger" id="btn-delete"><i class="fas fa-trash"></i> Hapus Post</button>
+                        <input type="text" value="<%= post.id %>" id="id-post" hidden>
+                    </div>
+                    
+                </div>    
+            <% } %>
+            
             <div class="d-flex justify-content-center mt-4">
                 <h1 class="h1"><%= post.title %> </h1>
             </div>

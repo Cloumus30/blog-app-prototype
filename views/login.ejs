@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partial/head') %> 
+    
+    <!-- Custom styles for this template -->
+    <link href="/css/signin.css" rel="stylesheet">
+    <title>Login</title>
+</head>
+
+<body>    
+    <form class="form-signin" action="/login" method="post">
+        <div class="d-flex justify-content-center">
+            <img class="mb-4 mx-auto" src="/img/logo-punjer.jpg" alt="" width="200" height="">
+        </div>
+        
+        <h1 class="h3 mb-3 font-weight-normal">Silahkan Login</h1>
+        <label for="inputEmail" class="">username</label>
+        <input type="text" id="inputUsername" class="form-control bg-white" name="username" required autofocus>
+        <label for="inputPassword" class="">Password</label>
+        <input type="password" id="inputPassword" class="form-control bg-white" name="password" required>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <div class="d-flex justify-content-center">
+            <p class="mt-5 mb-3 text-muted">&copy; Punjer Coding</p>
+        </div>
+        
+    </form>
+</body>
+</html>
+
+
+
+
+

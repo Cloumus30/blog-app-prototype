@@ -1,7 +1,7 @@
 const path = require('path');
 const moment = require('moment');
-const {Post, Soal, PaketSoal} = require(path.join(__dirname+'/../models/index'));
-const {pagination,getImages,getDesc} = require(path.join(__dirname+'/../custom-function/funct'));
+const {Post, Soal, PaketSoal} = require(path.join(__dirname,'../models/index'));
+const {pagination,getImages,getDesc} = require(path.join(__dirname,'../custom-function/funct'));
 
 // Show all blog Data
 const blogList = async (req, res)=>{

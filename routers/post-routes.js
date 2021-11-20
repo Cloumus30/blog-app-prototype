@@ -2,14 +2,16 @@ const path = require('path');
 const express = require('express');
 const routers = express.Router();
 const blogController = require(path.join(__dirname+'/../controller/blogController'));
+const {checkUser} = require(path.join(__dirname,'../middleware/auth-middleware'));
 
 routers.get('/blog',blogController.blogList);
-routers.get('/insert-post',blogController.insertPostPage);
 routers.get('/post/:id',blogController.showPost ); //show One Post
-routers.get('/edit-post/:id', blogController.editPostPage ); //go to edit pOst page
-routers.post('/insert-post',blogController.insertPost ); // insert post to db
-routers.post('/update-post/:id', blogController.updatePost ); // update and save post to db
-routers.delete('/post-delete/:id', blogController.deletePost); // delete post data from db
+// routers.use(checkUser);
+routers.get('/insert-post',checkUser,blogController.insertPostPage);
+routers.get('/edit-post/:id',checkUser, blogController.editPostPage ); //go to edit pOst page
+routers.post('/insert-post',checkUser,blogController.insertPost ); // insert post to db
+routers.post('/update-post/:id',checkUser, blogController.updatePost ); // update and save post to db
+routers.delete('/post-delete/:id',checkUser, blogController.deletePost); // delete post data from db
 
 
 module.exports = routers;
