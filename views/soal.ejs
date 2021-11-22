@@ -11,7 +11,7 @@
 
     <!-- Blog Start -->
     <div class="blog_main">
-    	<div class="container-fluid">
+    	<div class="container">
 
             <div class="d-flex justify-content-end mt-4">
                 <% if (locals.user !== null) { %>
@@ -26,7 +26,7 @@
             <% let i=1; soal.forEach(el => { %>
                 <br><hr>
                 <div id="soal-<%= el.id %>">
-                    <h4>No.<%= i %> 
+                    <h4 class="py-0 my-0">No.<%= i %> 
                         <% if (locals.user !== null) { %>
                             <form id="delete-form" action="/delete-soal/<%= el.id %>" method="post">
                                 <a href="/edit-soal/<%= el.id %>"><button type="button" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Soal</button></a>

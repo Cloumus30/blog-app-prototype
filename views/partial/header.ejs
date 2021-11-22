@@ -29,30 +29,26 @@
                                 <li class="nav-item" href="#">
                                     <a class="nav-link" href="/paket-soal">LATIHAN SOAL</a>
                                 </li>
-                                <li class="last">
+                                <li class="nav-item dropdown">
                                     <% if (locals.user !== null) { %>
-                                        <div class="dropdown">
-                                            <button class="btn text-light bg-transparent dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                              <%= locals.user.name %> 
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <a class="dropdown-item" href="#">Account</a>
-                                              <hr>
-                                              <a class="dropdown-item text-danger" href="/logout">Log Out</a>
-                                            </div>
-                                        </div>
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <%= locals.user.name %> 
+                                          </a>
+                                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="#">Account</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-danger" href="/logout">Logout</a>
+                                          </div>
                                     <% }else{ %>
-                                        <div class="dropdown">
-                                            <button class="btn text-light bg-transparent dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                              Guest
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                              <a class="dropdown-item" href="/login">Login</a>
-                                            </div>
-                                        </div>
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Tamu
+                                          </a>
+                                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="/login">Login</a>
+                                          </div>
                                     <% } %> 
-                                    
-                                </li>
+                                  </li>
+                                  
                             </ul>
                         </div>
                     </nav>

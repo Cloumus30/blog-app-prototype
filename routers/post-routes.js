@@ -2,10 +2,10 @@ const path = require('path');
 const express = require('express');
 const routers = express.Router();
 const blogController = require(path.join(__dirname+'/../controller/blogController'));
-const {checkUser} = require(path.join(__dirname,'../middleware/auth-middleware'));
+const {checkUser, currentUser} = require(path.join(__dirname,'../middleware/auth-middleware'));
 
-routers.get('/blog',blogController.blogList);
-routers.get('/post/:id',blogController.showPost ); //show One Post
+routers.get('/blog',currentUser,blogController.blogList);
+routers.get('/post/:id',currentUser,blogController.showPost ); //show One Post
 // routers.use(checkUser);
 routers.get('/insert-post',checkUser,blogController.insertPostPage);
 routers.get('/edit-post/:id',checkUser, blogController.editPostPage ); //go to edit pOst page

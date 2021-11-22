@@ -31,20 +31,30 @@ const checkLogin = async(req,res,next)=>{
             bcrypt.compare(reqPass, hashPass, async function(err,result){
                 if(err){
                     console.log(err);
-                    res.json(err);
+                    await req.flash('error',`There is error in server: ${err}`)
                 }
                 if(result){
                     //password correct
+                    await req.flash('info',`Berhasil Login, Hai ${data.name}`);
                     const token = createToken(data.username);
                     res.cookie('jwtToken',token,{httpOnly:true});
                     return res.redirect('/');
                 }
                 //password does not correct
-                console.log('password Salah');
+                await req.flash('error', 'password tidak sesuai');
+                console.log('password is uncorrect');
+                return res.redirect('/login')
+
             });
+        }else{
+            await req.flash('error','Username tidak ditemukan');
+            console.log('Username does not exists');
+            return res.redirect('/login')
         }
     }catch(error){
         console.log(error);
+        await req.flash('error', `There is error in server ${error}`);
+        return res.redirect('/');
     }
 }
 

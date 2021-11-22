@@ -1,14 +1,10 @@
 require("dotenv").config();
 const path = require('path');
 const express = require("express");
-const {Post, Soal, PaketSoal} = require('./models/index');
-const fs = require('fs');
+
 const fileUpload =  require('express-fileupload');
-const moment = require('moment');
-const sequelize = require('sequelize');
-const cloudinary = require("cloudinary").v2;
-const { stringify } = require("querystring");
-const res = require("express/lib/response");
+const session = require('express-session');
+const {flash} = require('express-flash-message');
 const cookieParser = require("cookie-parser");
 const app = express();
 const port = process.env.PORT||3000;
@@ -30,19 +26,20 @@ app.use(fileUpload());
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-// // express-session
-// app.use(
-//     session({
-//         secret: 'blognisfa',
-//         resave: false,
-//         saveUninitialized: true,
-//     })
-// );
+// express-session
+app.use(
+    session({
+        secret: 'blognisfa',
+        resave: false,
+        saveUninitialized: true,
+    })
+);
+app.use(flash({sessionKeyName:'flashMessage'}));
 app.use(cookieParser());
 
 app.use(authRoutes);
 // app.use(checkToken);
-app.use(currentUser);
+// app.use(currentUser);
 
 // Using Imported Routers
 app.use(dashboardRoutes);

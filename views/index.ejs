@@ -10,6 +10,18 @@
     <!--banner start -->
     <div class="banner-main">
     	<div class="container">
+
+			<% info.forEach(inf => { %>
+				<div class="alert alert-success" role="alert">
+					<%= inf %> 
+				</div>
+			<% }) %>
+			<% error.forEach(err => { %>
+				<div class="alert alert-danger" role="alert">
+					<%= err %> 
+				</div>
+			<% }) %>
+
             <div class="titlepage-h1">
     	        <h1 class="bnner_title">Welcome To<br>
     	        <span style="color: #10b5fa">MY BLOG</span></h1>

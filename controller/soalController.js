@@ -4,6 +4,8 @@ const {Soal,PaketSoal} = require(path.join(__dirname+'/../models/index'));
 //Show All Soal From Paket Soal
 const showAll = async(req,res)=>{
     const id = req.params.id.trim();
+    const info = await req.consumeFlash('info');
+    const error = await req.consumeFlash('error');
     try {
         const paket = await PaketSoal.findByPk(id);
         const data = await Soal.findAll({
@@ -12,7 +14,7 @@ const showAll = async(req,res)=>{
             }
         });
         // console.log(data);
-        res.render('soal',{soal:data,paket});
+        res.render('soal',{soal:data,paket,info,error});
     } catch (error) {
         console.log(error);
         res.json(error);
@@ -85,10 +87,12 @@ const update = async(req,res)=>{
                 id:id
             }
         });
+        await req.flash('info','update Soal berhasil');
         res.redirect(`/paket-soal`);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        await req.flash('error',`update Gagal: ${error}`);
+        res.redirect(`/paket-soal`);
     }
 };
 
@@ -112,10 +116,12 @@ const insert = async(req,res)=>{
         dat_soal: data,
         nama_paket: request.paket_soal
     });
+    await req.flash('info','Soal berhasil ditambahkan');
     res.redirect('/paket-soal');    
    } catch (error) {
     console.log(error);
-    res.json(error);
+    await req.flash('error',`Input Gagal: ${error}`);
+    res.redirect(`/paket-soal`);
    }
 };
 
@@ -128,10 +134,12 @@ const destroy = async(req,res)=>{
                 id:id
             }
         });
+        await req.flash('Soal berhasil dihapus');
         res.redirect('/paket-soal');
     } catch (error) {
         console.log(error);
-        res.json(error);
+        await req.flash('error',`Soal Gagal dihapus: ${error}`);
+        res.redirect(`/paket-soal`);
     }
 }
 

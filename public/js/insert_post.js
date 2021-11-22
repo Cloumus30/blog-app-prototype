@@ -9,9 +9,9 @@ tinymce.init({
     plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak autosave lists',
     // extended_valid_elements : "iframe[src|frameborder|style|scrolling|class|width|height|name|align]",
     autosave_interval:'4s',
-    content_style: 'div { margin: 10px; border: 5px solid red; padding: 3px; } ',
+    content_style: 'div { border:2px solid black; backgroundColor:#EEF4ED; padding: 3px; } ',
     paste_data_images: true,
-    height:500,
+    height:700,
     automatic_uploads:false,
     external_plugins: {
         'tiny_mce_wiris' : 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js'

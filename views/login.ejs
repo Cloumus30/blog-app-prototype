@@ -9,7 +9,13 @@
 </head>
 
 <body>    
+    
     <form class="form-signin" action="/login" method="post">
+        <% error.forEach(err => { %>
+            <div class="alert alert-danger" role="alert">
+                <%= err %> 
+            </div>
+        <% }) %>
         <div class="d-flex justify-content-center">
             <img class="mb-4 mx-auto" src="/img/logo-punjer.jpg" alt="" width="200" height="">
         </div>

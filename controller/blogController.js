@@ -6,7 +6,9 @@ const {pagination,getImages,getDesc} = require(path.join(__dirname,'../custom-fu
 // Show all blog Data
 const blogList = async (req, res)=>{
     let URLQuery = pagination(req.query);
-
+    //get notif
+    const info = await req.consumeFlash('info');
+    const error = await req.consumeFlash('error');
     try {
         const posts = await Post.findAndCountAll({
             limit:URLQuery.pageSize,
@@ -35,10 +37,11 @@ const blogList = async (req, res)=>{
         element.datePost = dateVal;
     });
 
-    res.render('blog',{posts,URLQuery});
+    res.render('blog',{posts,URLQuery,info,error});
 
     } catch (error) {
         console.log(error);
+        res.json(error);
     }
 };
 
@@ -84,9 +87,12 @@ const insertPost = async (req,res)=>{
             body:request.body,
             geogebra:request.geogebra
         });
+        await req.flash('info', 'Post berhasil ditambahkan');
         res.redirect('/blog');
     }catch(err){
         console.log(err);
+        await req.flash('error',`Post tidak berhasil ditambah: ${err}`);
+        res.redirect('/blog');
     }
 };
 
@@ -104,10 +110,12 @@ const updatePost = async(req,res)=>{
                 id:id
             }
         });
+        await req.flash('info', 'Post berhasil diupdate');
         res.redirect(`/blog`);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        await req.flash('error', `Post gagal diupdate: ${error}`);
+        res.redirect('/blog');
     }
 };
 
@@ -123,10 +131,12 @@ const deletePost = async(req,res)=>{
         const result = {
             notif:"berhasil dihapus"
         }
-        return res.json({"notif":"berhasil"});
+        await req.flash('info', `Post berhasil dihapus`);
+        return res.redirect("/blog");
     }catch(err){
+        await req.flash('error', `Post gagal dihapus: ${err}`);
         console.log(err);
-        res.json(err);
+        return res.redirect('/blog')
     }
 };
 

@@ -5,6 +5,8 @@ const{getImages, getDesc} = require(path.join(__dirname+'/../custom-function/fun
 
 // Show All List of Paket Soal adn 5 posts
 const listPaketSoal = async(req,res)=>{
+    const error = await req.consumeFlash('error');
+    const info = await req.consumeFlash('info');
     try {
         const posts = await Post.findAndCountAll({
             limit:5,
@@ -34,7 +36,7 @@ const listPaketSoal = async(req,res)=>{
 
         const paketSoal = await PaketSoal.findAll();
         // console.log(data);
-        res.render('list_paket_soal',{paketSoal,posts});
+        res.render('list_paket_soal',{paketSoal,posts,info,error});
     } catch (error) {
         console.log(error);
         res.json(error);
@@ -46,6 +48,7 @@ const insertPaketSoalPage = async (req,res)=>{
     res.render('insert_paket_soal');
 };
 
+// Go to Edit Paket Soal Page
 const editPaketSoalPage = async(req,res)=>{
     const id = req.params.id.trim();
     try {
@@ -68,10 +71,13 @@ const editPaketSoal = async(req,res)=>{
                 id:id
             }
         });
+        await req.flash('info', 'Paket Soal berhasil diupdate');
         res.redirect('/paket-soal');
     } catch (error) {
         console.log(error);
-        res.json(error);
+        await req.flash('error', `Terdapat error: ${error}`);
+        res.redirect('/paket-soal');
+        // res.json(error);
     }
 };
 
@@ -82,10 +88,12 @@ const insertPaketSoal = async(req,res)=>{
         const dat = await PaketSoal.create({
             nama_paket: request.namaPaket
         });
+        await req.flash('info','Paket Soal berhasil ditambahkan');
         res.redirect('/paket-soal');
     } catch (error) {
         console.log(error);
-        res.json(error);
+        await req.flash('error', `Terdapat error: ${error}`);
+        res.redirect('/paket-soal');
     }
 };
 

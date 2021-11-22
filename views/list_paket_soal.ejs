@@ -9,6 +9,18 @@
     <!-- Blog Start -->
     <div class="blog_main">
     	<div class="container">
+            
+            <% info.forEach(inf => { %>
+				<div class="alert alert-success" role="alert">
+					<%= inf %> 
+				</div>
+			<% }) %>
+			<% error.forEach(err => { %>
+				<div class="alert alert-danger" role="alert">
+					<%= err %> 
+				</div>
+			<% }) %>
+
             <% if (locals.user !== null) { %>
                 <div class="d-flex justify-content-end mt-3">
                     <a href="/insert-paket-soal" class="btn btn-info"><i class="fas fa-pen"></i> Input Paket Soal</a>

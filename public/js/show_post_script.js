@@ -50,9 +50,9 @@ deleteBtn.addEventListener('click',(e)=>{
                 })
                 .then(response=>{response.json()})
                 .then(result=>{
-                    alert(`post berhasil dihapus`);
+                    // alert(`post berhasil dihapus`);
                     
-                    window.location.href='/';
+                    window.location.href='/blog';
                 })
                 .catch(err=>{console.log(err)});
     }
